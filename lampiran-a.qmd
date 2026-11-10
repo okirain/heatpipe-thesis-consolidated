@@ -1,0 +1,7 @@
+# LAMPIRAN A: LISTING KODE PROGRAM {.unnumbered}
+
+Lampiran ini memuat inti kode model tereduksi yang menghasilkan seluruh angka pada Bab V. Kode lengkap beserta skrip studi tersedia pada folder *src* di repositori skripsi. Berkas *hp_model.py* berisi sifat termofisika, geometri, penyelesai aksial, batas operasi, dan jaringan hambatan termal, sedangkan berkas *run_all.py* menghasilkan seluruh tabel dan gambar.
+
+```{.python}
+{{< include src/lampiran_kode.py >}}
+```

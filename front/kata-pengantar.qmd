@@ -1,0 +1,22 @@
+# KATA PENGANTAR {.unnumbered}
+
+Puji syukur penulis panjatkan kepada Allah SWT atas rahmat dan karunia-Nya sehingga skripsi berjudul *Model Tereduksi Dua Fasa Pipa Kalor Natrium untuk Pendinginan Pasif Reaktor Antariksa Indonesia: Validasi terhadap Uji KRUSTY dan Aplikasi pada Teras 61 Pin 500 kWth* dapat diselesaikan. Skripsi ini disusun sebagai salah satu syarat memperoleh derajat Sarjana pada Program Studi Teknik Nuklir, Departemen Teknik Nuklir dan Teknik Fisika, Fakultas Teknik, Universitas Gadjah Mada.
+
+Penulis menyampaikan terima kasih kepada:
+
+1. Bapak \ketuadepartemen selaku Ketua Departemen Teknik Nuklir dan Teknik Fisika yang telah memberikan kesempatan menempuh studi.
+2. Bapak/Ibu \pembimbingutama selaku Pembimbing Utama dan Bapak/Ibu \pembimbingpendamping selaku Pembimbing Pendamping atas arahan, koreksi, dan kesabaran selama penelitian.
+3. Seluruh dosen dan staf Departemen Teknik Nuklir dan Teknik Fisika atas ilmu dan bantuan administratif yang diberikan.
+4. Orang tua, keluarga, dan rekan-rekan mahasiswa Teknik Nuklir angkatan 2020 atas dukungan moral yang tidak ternilai.
+
+Skripsi ini berangkat dari persoalan yang sederhana: bagaimana mengetahui apakah sebuah pipa kalor natrium sanggup memindahkan panas dari teras reaktor antariksa sebelum perangkat kerasnya dibuat. Jawaban atas persoalan itu menuntut model yang cukup ringan untuk dijalankan berulang kali, tetapi cukup jujur untuk tidak menyembunyikan batas kemampuannya. Penulis menyadari bahwa naskah ini masih memiliki kekurangan, terutama pada penyederhanaan aliran uap satu dimensi dan pada ketiadaan evaluasi neutronik penuh. Kritik dan saran yang membangun sangat diharapkan.
+
+::: {.flushright}
+
+Yogyakarta, \kotatanggal
+
+
+Penulis
+
+:::
+

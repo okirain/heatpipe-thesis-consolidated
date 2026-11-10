@@ -1,0 +1,37 @@
+# KESIMPULAN DAN SARAN
+
+## Kesimpulan
+
+Berdasarkan hasil verifikasi, validasi, dan penerapan model, dapat disimpulkan sebagai berikut.
+
+1. Model tereduksi satu dimensi aliran dua fasa berhasil dibangun dengan menyelesaikan momentum uap kompresibel secara *marching*, filtrasi Darcy pada sumbu komposit, lima batas operasi, dan jaringan hambatan termal. Verifikasi menunjukkan konvergensi grid 0,03% pada 240 titik, kesesuaian 0,02% dengan solusi Darcy analitik untuk aliran cairan, kesesuaian 0,25% dengan solusi Hagen--Poiseuille untuk aliran uap, dan deviasi di bawah 0,6% terhadap nilai rujukan sifat termofisika natrium.
+
+2. Validasi terhadap lima kondisi tunak uji KRUSTY dengan protokol *leave-one-out* menghasilkan MAPE 4,68%, RMSE 2,08 K, dan $R^{2} = 0{,}961$, dengan galat terbesar 6,29% pada daya tertinggi. Hambatan antarmuka hasil kalibrasi, 0,0384 K/W, berada di dalam rentang yang diperkirakan secara independen dari konduktansi kontak logam, sehingga parameter kalibrasi memiliki dasar fisik.
+
+3. Hambatan termal intrinsik pipa kalor natrium KRUSTY hanya 4,4--5,0$\times10^{-3}$ K/W, sehingga hampir seluruh beda temperatur 26--56 K yang terukur berasal dari antarmuka pengujian, bukan dari pipa. Temuan ini menjelaskan mengapa model tanpa parameter antarmuka tidak dapat mencocokkan data uji secara langsung, dan mengapa klaim akurasi di bawah 1% pada studi sejenis perlu dicurigai.
+
+4. Pada rentang temperatur kerja 1000--1150 K, mekanisme pembatas pipa kalor in-pin berdiameter luar 16--20 mm adalah batas entrainment, bukan batas kapiler. Pada 1075 K, batas entrainment 15,22 kW jauh lebih rendah daripada batas kapiler 51,97 kW dan batas sonik 29,41 kW. Penyebabnya adalah luas penampang uap yang kecil akibat batasan geometri pin, yang menaikkan kecepatan uap hingga 133 m/s pada beban puncak.
+
+5. Mikrogravitasi menaikkan batas kapiler sebesar 50% dibandingkan pengujian darat melawan gravitasi (51,97 kW berbanding 34,54 kW pada 1075 K), tetapi tidak mengubah batas entrainment maupun sonik. Pengujian darat karena itu konservatif untuk batas kapiler, namun tidak mewakili kondisi operasi sesungguhnya.
+
+6. Diameter luar 18 mm merupakan diameter terkecil yang memenuhi kriteria $SF \ge 1{,}3$ pada beban puncak 11,07 kW, dengan $SF = 1{,}37$, margin tekanan kapiler 84,6%, dan temperatur puncak bahan bakar 1249 K. Diameter 16 mm gagal memenuhi kriteria ($SF = 1{,}02$), sedangkan diameter 20 mm menaikkan margin menjadi 1,78 tetapi menambah kehilangan bahan bakar dari 26,4% menjadi 34,0%.
+
+7. Seluruh 61 pin teras ISR 500 kWth dapat didinginkan secara pasif, dengan faktor keselamatan antara 1,37 pada pin pusat hingga 2,17 pada cincin terluar. Kegagalan satu pipa menaikkan temperatur bahan bakar pin yang gagal menjadi 1526 K dan menurunkan faktor keselamatan tetangga menjadi 1,18, sehingga masih dapat ditoleransi; kegagalan dua pipa bersamaan menaikkan temperatur menjadi 1803 K dan melampaui batas desain.
+
+8. Retrofit pipa kalor memangkas massa subsistem pendingin dari 65,0 kg menjadi 24,1 kg, yaitu penghematan 40,94 kg atau 63,0%, serta menghilangkan daya parasitik pompa sebesar 0,53 kW. Namun retrofit juga mengurangi volume bahan bakar 27,2% dan menurunkan umur teras dari 17 tahun menjadi sekitar 12,4 tahun; apabila umur dipulihkan dengan menaikkan tinggi aktif menjadi 343 mm, penghematan massa bersih menyusut menjadi orde 10--25 kg. Manfaat utama rancangan ini adalah keselamatan inheren dan degradasi bertahap, bukan penghematan massa.
+
+## Saran
+
+Beberapa saran untuk penelitian lanjutan disusun berdasarkan keterbatasan yang ditemukan.
+
+1. Model perlu diperluas menjadi kuasi-transien agar dapat menilai penyalaan dari kondisi beku, pembekuan kondensat, dan respons terhadap perubahan daya, karena justru pada transien itulah batas sonik dan viskos menjadi kritis.
+
+2. Validasi sebaiknya dilengkapi dengan data pipa kalor berdaya di atas 5 kW per pipa, misalnya dari uji pipa kalor natrium skala penuh, karena penerapan pada ISR melibatkan ekstrapolasi daya sebesar faktor sebelas dari rentang validasi.
+
+3. Kriteria entrainment perlu diuji ulang secara eksperimental untuk pori berukuran 10--30 µm pada temperatur 1000--1150 K, mengingat justru kriteria inilah yang menentukan margin desain, sementara dasar empirisnya masih berasal dari percobaan air pada temperatur rendah.
+
+4. Analisis neutronik penuh perlu dilakukan untuk mengevaluasi konsekuensi pengurangan 27% volume bahan bakar terhadap reaktivitas, distribusi fluks, koefisien umpan balik, dan umur teras; hasil pada skripsi ini hanya perkiraan skala berdasarkan kesebandingan inventaris fisil.
+
+5. Alternatif arsitektur perlu dikaji, khususnya penempatan pipa kalor pada ruang antar-pin dengan pitch yang diperbesar, atau kombinasi pipa kalor in-pin dengan penurunan daya per pin, agar kehilangan bahan bakar dapat ditekan tanpa mengorbankan margin termal.
+
+6. Evaluasi termomekanik kelongsong Mo-30Re perlu dilakukan, karena gradien temperatur 153 K di dalam pelet dan tegangan akibat tekanan uap natrium 50 kPa belum diperhitungkan dalam penelitian ini.

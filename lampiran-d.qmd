@@ -1,0 +1,24 @@
+# LAMPIRAN D: TABEL HASIL TAMBAHAN {.unnumbered}
+
+**Tabel D.1** Sensitivitas kinerja pipa dan temperatur bahan bakar terhadap temperatur operasi.
+
+{{< include tables/tab_sens_plain.md >}}
+
+**Tabel D.2** Perbandingan batas operasi pada kondisi mikrogravitasi ($0g$) dan pengujian darat ($1g$).
+
+| $T$ (K) | $Q_{cap}$ $0g$ (kW) | $Q_{cap}$ $1g$ (kW) | Penurunan (%) | $Q_{ent}$ (kW) | $Q_{sonic}$ (kW) |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| 900 | 35,63 | 23,96 | 32,7 | 6,93 | 4,68 |
+| 1000 | 44,62 | 30,36 | 32,0 | 11,38 | 14,69 |
+| 1050 | 49,65 | 33,33 | 32,9 | 13,91 | 23,65 |
+| 1075 | 51,97 | 34,54 | 33,5 | 15,22 | 29,41 |
+| 1100 | 54,10 | 35,55 | 34,3 | 16,55 | 36,13 |
+| 1150 | 57,62 | 36,86 | 36,0 | 19,24 | 52,76 |
+
+```{=latex}
+\clearpage
+```
+
+**Tabel D.3** Hasil lengkap verifikasi numerik.
+
+{{< include tables/tab_verifikasi_plain.md >}}

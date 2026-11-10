@@ -1,0 +1,57 @@
+```{=latex}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+```
+
+# PENDAHULUAN
+
+## Latar Belakang
+
+Ketergantungan wahana antariksa pada panel surya membatasi jangkauan misi: di luar orbit Mars, kerapatan fluks matahari turun di bawah ambang yang ekonomis untuk pembangkitan listrik, dan pada misi ke bulan, asteroid, atau permukaan Mars, siklus siang-malam serta badai debu menuntut sumber energi yang tidak bergantung pada cahaya. Reaktor nuklir menjawab keterbatasan itu. Satu kilogram uranium nitrida menyimpan energi ribuan kali lebih besar daripada satu kilogram sel surya, sehingga reaktor daya kecil berdaya 1--100 kWe menjadi pilihan utama untuk pos pangkalan dan propulsi listrik [@elgenk2009deployment; @un1992principles].
+
+Persoalan utama reaktor antariksa bukanlah reaksinya, melainkan cara membuang panasnya. Karena tidak ada konveksi alami di ruang hampa dan radiator harus bekerja pada temperatur tinggi agar luasnya wajar, seluruh rantai perpindahan panas dari bahan bakar menuju radiator menjadi penentu massa dan keselamatan wahana. Sistem konvensional memakai loop pendingin logam cair berpompa: pompa elektromagnetik mendorong eutektik Na-78K dari teras menuju penukar kalor, lalu fluida kembali ke teras. Skema ini bekerja baik di darat, tetapi membawa tiga kelemahan mendasar bagi wahana antariksa, yaitu adanya komponen bergerak yang menjadi titik kegagalan tunggal, konsumsi daya listrik parasitik yang mengambil jatah dari muatan ilmiah, dan getaran mekanik yang mengganggu instrumentasi presisi [@king2006submersion; @elgenk2004sair].
+
+Pipa kalor menawarkan jalan keluar. Sebuah pipa kalor logam alkali adalah sirkuit tertutup yang memindahkan panas melalui penguapan natrium di evaporator, transpor uap menuju kondensor, dan pengembalian kondensat ke evaporator oleh tekanan kapiler sumbu berpori. Tidak ada bagian bergerak, tidak ada daya listrik yang dikonsumsi, dan tidak ada getaran yang dibangkitkan; selama gradien temperatur masih ada, panas terus mengalir [@cotter1967theory; @faghri1995heat]. Konsep ini telah diuji pada serangkaian reaktor antariksa konseptual seperti HOMER dan SAIR [@poston2000heatpipe; @elgenk2004sair], dan mencapai puncaknya pada uji KRUSTY (*Kilowatt Reactor Using Stirling TechnologY*) yang dilaksanakan NASA pada 2018. KRUSTY membuktikan bahwa reaktor cepat berdaya 1 kWe dengan pipa kalor natrium berpelapis Haynes 230 dapat beroperasi stabil, termasuk pada kondisi kegagalan yang disengaja [@briggs2018electrically; @gibson2018krusty].
+
+Sayangnya, bukti eksperimental tidak otomatis menjadi alat desain. Sebelum perangkat keras dibuat, perancang perlu menjawab pertanyaan berulang: berapa diameter pipa yang cukup untuk membawa daya pin tertentu, pada temperatur kerja berapa margin keselamatannya masih memadai, dan apa yang terjadi bila satu pipa gagal. Kode komputasi fluida komersial dapat menjawab pertanyaan itu, tetapi biaya komputasi dan waktu penyiapan modelnya tidak sebanding dengan kebutuhan iterasi desain yang mencapai ratusan kali. Di sinilah model tereduksi (*reduced-order model*, ROM) berperan: model satu dimensi yang menyelesaikan fisika yang relevan tanpa menyelesaikan medan aliran tiga dimensi secara penuh [@faghri1995heat; @dunn2012heat].
+
+Bagi Indonesia, persoalan ini bukan latihan akademik. Desain konseptual *Indonesian Space Reactor* (ISR) yang diajukan Khandaq dkk. merupakan reaktor cepat 500 kWth berisi 61 pin bahan bakar uranium nitrida berkelongsong Mo-30Re, dengan eutektik Na-78K sebagai pendingin dan reflektor BeO [@khandaq2020conceptual]. Desain tersebut menyisakan satu pertanyaan terbuka: apabila loop pompa digantikan oleh pipa kalor natrium yang ditanam di rongga tengah setiap pin, apakah daya 500 kWth masih dapat dievakuasi, dan berapa harga yang harus dibayar pada inventaris bahan bakar?
+
+Penelitian ini menjawab pertanyaan tersebut melalui tiga langkah yang saling mengunci. Pertama, dibangun model tereduksi satu dimensi aliran dua fasa yang menyelesaikan momentum uap kompresibel, filtrasi Darcy pada sumbu komposit, lima batas operasi, dan jaringan hambatan termal. Kedua, model diverifikasi secara numerik dan divalidasi terhadap data uji KRUSTY dengan protokol yang memisahkan parameter kalibrasi dari parameter prediksi. Ketiga, model yang telah lolos verifikasi dan validasi diterapkan pada teras ISR 61 pin untuk memetakan amplop operasi, memilih geometri pipa, mengevaluasi keselamatan, serta menghitung konsekuensi massa, daya parasitik, dan umur teras.
+
+## Perumusan Masalah
+
+Berdasarkan latar belakang di atas, masalah penelitian dirumuskan sebagai berikut.
+
+1. Bagaimana model tereduksi satu dimensi yang menggabungkan aliran uap kompresibel, aliran balik cairan dalam sumbu berpori, dan jaringan hambatan termal dapat dibangun dan diverifikasi secara numerik?
+2. Seberapa akurat model tersebut mereproduksi karakteristik termal pipa kalor natrium pada uji KRUSTY, apabila parameter antarmuka dikalibrasi pada sebagian data dan diuji pada data yang tidak dipakai untuk kalibrasi?
+3. Batas operasi manakah yang menjadi pembatas pada rentang temperatur kerja reaktor antariksa, dan bagaimana pengaruh kondisi mikrogravitasi terhadap batas tersebut?
+4. Berapa geometri pipa kalor minimum yang mampu mengevakuasi daya pin puncak teras ISR, dan berapa konsekuensinya terhadap volume bahan bakar?
+5. Bagaimana kinerja keselamatan, massa, dan daya parasitik teras ISR berpendingin pipa kalor dibandingkan dengan desain baseline berpompa Na-78K?
+
+### Batasan Masalah
+
+Agar penelitian tetap terarah, ruang lingkup dibatasi sebagai berikut.
+
+1. Model bersifat tunak (*steady state*); transien penyalaan, pembekuan natrium, dan riwayat daya tidak dimodelkan.
+2. Aliran uap diselesaikan satu dimensi aksial dengan asumsi kesetimbangan saturasi lokal; medan aliran radial dan tiga dimensi diabaikan.
+3. Fluida kerja adalah natrium murni; eutektik Na-78K hanya dibahas sebagai pembanding sistem baseline.
+4. Teras ISR dimodelkan sebagai 61 pin dengan distribusi daya radial lima cincin yang dinormalisasi terhadap 500 kWth; analisis neutronik, termomekanik kelongsong, dan penyinaran bahan bakar tidak dilakukan.
+5. Kondisi lingkungan utama adalah mikrogravitasi sempurna ($g = 0$), dengan perbandingan pada $1g$ sebagai pembanding pengujian darat.
+6. Validasi menggunakan data uji KRUSTY yang terdokumentasi pada rentang daya 312,5--1000 W per pipa; ketidakpastian data acuan diperlakukan sebagai bagian dari pembahasan.
+
+## Tujuan Penelitian
+
+Tujuan yang ingin dicapai adalah:
+
+1. membangun model tereduksi satu dimensi aliran dua fasa pipa kalor natrium yang dapat dieksekusi berulang kali dalam waktu singkat;
+2. memverifikasi model secara numerik melalui uji konvergensi grid, neraca energi, dan perbandingan dengan solusi analitik;
+3. memvalidasi model terhadap data uji KRUSTY dengan protokol *leave-one-out* dan melaporkan metrik akurasi secara terbuka;
+4. memetakan amplop batas operasi pipa kalor pada rentang 900--1150 K serta memilih geometri pipa minimum yang memenuhi kriteria keselamatan;
+5. mengevaluasi penerapan pipa kalor pada teras ISR 61 pin, mencakup suhu bahan bakar, margin keselamatan, toleransi kegagalan pipa, neraca massa, dan daya parasitik.
+
+## Manfaat Penelitian
+
+Manfaat teoretis penelitian ini adalah tersedianya formulasi model tereduksi yang konsisten secara termodinamika, karena tekanan uap jenuh diintegrasikan dari kalor laten yang dipakai model itu sendiri, sehingga tidak muncul ketidakkonsistenan antara kurva $P_{sat}$ dan $h_{fg}$ yang sering dijumpai pada implementasi yang mencampur korelasi berbeda sumber. Manfaat praktisnya adalah alat bantu desain yang dapat dipakai untuk menyaring geometri pipa kalor sebelum perangkat keras dibuat.
+
+Manfaat institusionalnya adalah kontribusi pada kajian reaktor antariksa di Indonesia, khususnya pada desain konseptual ISR, dengan menunjukkan secara kuantitatif di mana manfaat pendinginan pasif benar-benar muncul dan di mana harga harus dibayar. Manfaat metodologisnya adalah contoh protokol validasi yang jujur: parameter yang dikalibrasi dipisahkan dari parameter yang diuji, dan metrik akurasi dilaporkan apa adanya, bukan setelah disesuaikan agar tampak sempurna.

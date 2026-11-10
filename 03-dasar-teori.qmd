@@ -1,0 +1,163 @@
+# DASAR TEORI
+
+## Skema dan Asumsi Model
+
+Pipa kalor yang dimodelkan berbentuk silinder dengan tiga zona aksial: evaporator sepanjang $L_e$ tempat kalor masuk, zona adiabatik sepanjang $L_a$, dan kondensor sepanjang $L_c$ tempat kalor keluar. Secara radial, pipa tersusun dari selubung logam, sumbu berpori jenuh natrium cair, dan inti uap di bagian tengah (Gambar 3.1).
+
+![Skema pipa kalor natrium in-pin beserta arah aliran uap dan cairan.](figures/skema_pipa_kalor.pdf){#fig-skema width=90%}
+
+Model dibangun atas lima asumsi yang perlu dinyatakan sejak awal karena membatasi keberlakuannya.
+
+1. Aliran tunak (*steady state*). Tidak ada suku akumulasi massa, momentum, maupun energi.
+2. Uap berada dalam kesetimbangan saturasi lokal, sehingga $T(z) = T_{sat}(P_v(z))$. Asumsi ini wajar untuk pipa kalor logam cair karena laju penguapan dan pengembunan jauh lebih cepat daripada transpor aksial.
+3. Aliran uap satu dimensi aksial, seragam pada setiap penampang, dengan faktor gesek Darcy yang bergantung pada bilangan Reynolds lokal.
+4. Sumbu berpori jenuh sempurna; aliran cairan mengikuti hukum Darcy yang diperluas dengan suku inersia Ergun.
+5. Hambatan termal radial dihitung dengan jaringan satu dimensi, sedangkan konduksi aksial pada selubung diabaikan karena rasio panjang terhadap tebal dinding sangat besar.
+
+## Sifat Termofisika Natrium
+
+Sifat natrium cair dan uap dievaluasi dari korelasi Fink dan Leibowitz [@fink1995thermodynamic] beserta korelasi pelengkap dari Faghri [@faghri1995heat]. Densitas cairan mengikuti hubungan linear
+
+$$\rho_l(T) = 1014 - 0{,}235\,T \quad [\mathrm{kg/m^3}]$$ {#eq-rhol}
+
+yang berlaku dalam 1% pada rentang 400--1400 K. Viskositas dinamis cairan dinyatakan sebagai
+
+$$\ln \mu_l = -6{,}4406 - 0{,}3958 \ln T + \frac{556{,}835}{T} \quad [\mathrm{Pa\cdot s}]$$ {#eq-mul}
+
+Tegangan permukaan mengikuti bentuk Watson yang dipatri pada temperatur kritis $T_c = 2503{,}7$ K,
+
+$$\sigma(T) = 0{,}2405 \left(1 - \frac{T}{T_c}\right)^{1{,}126} \quad [\mathrm{N/m}]$$ {#eq-sigma}
+
+dan kalor laten penguapan mengikuti bentuk serupa,
+
+$$h_{fg}(T) = 4{,}76 \times 10^{6} \left(1 - \frac{T}{T_c}\right)^{0{,}38} \quad [\mathrm{J/kg}]$$ {#eq-hfg}
+
+Persoalan muncul pada tekanan uap jenuh. Korelasi yang lazim dikutip untuk natrium ditulis dalam bentuk tertutup dengan konstanta yang berbeda-beda antar sumber, sehingga pada 1000 K hasilnya dapat berbeda lebih dari satu orde besaran. Karena tekanan uap menentukan densitas uap dan melalui densitas itu menentukan batas sonik, kesalahan pada besaran ini akan merambat ke seluruh kesimpulan desain.
+
+Untuk menghindari inkonsistensi tersebut, penelitian ini tidak memakai korelasi tertutup, melainkan mengintegrasikan persamaan Clausius--Clapeyron dengan kalor laten pada (@eq-hfg),
+
+$$\frac{d \ln P_{sat}}{dT} = \frac{h_{fg}(T)}{R_g T^{2}}$$ {#eq-clapeyron}
+
+dari titik didih normal $T_b = 1156{,}2$ K tempat $P_{sat} = 101{,}325$ kPa, dengan $R_g = R_u/M_{Na} = 361{,}66$ J/(kg·K). Integrasi numerik dilakukan pada grid 0,25 K menggunakan aturan trapesium. Cara ini menjamin bahwa kurva tekanan uap dan kurva kalor laten yang dipakai model saling konsisten secara termodinamika. Hasilnya adalah $P_{sat}(1000\ \mathrm{K}) = 24{,}07$ kPa dan $P_{sat}(1075\ \mathrm{K}) = 50{,}1$ kPa.
+
+Densitas uap dihitung dengan hukum gas ideal untuk natrium monomer, $\rho_v = P_v/(R_g T)$. Koreksi dimerisasi diabaikan; pada 1000--1100 K fraksi dimer natrium masih di bawah 8%, sehingga kesalahan densitas yang ditimbulkan tetap lebih kecil daripada ketidakpastian korelasi tekanan uap itu sendiri.
+
+![Sifat termofisika natrium jenuh pada rentang operasi reaktor antariksa: (a) tekanan uap jenuh dan densitas uap; (b) tegangan permukaan, konduktivitas termal, dan kalor laten.](figures/sifat_natrium.pdf){#fig-sifat width=95%}
+
+{{< include tables/tab_sifat.md >}}
+
+## Momentum Uap Kompresibel Satu Dimensi
+
+Laju alir massa uap pada setiap posisi aksial ditentukan oleh fluks penguapan dan pengembunan. Dengan $Q$ sebagai daya yang ditranspor dan $h_{fg}$ dievaluasi pada temperatur kondensor,
+
+$$\dot m_v(z) = \frac{Q}{h_{fg}} \cdot m(z), \qquad
+m(z) = \begin{cases} z/L_e, & 0 \le z \le L_e \\ 1, & L_e < z \le L_e + L_a \\ 1 - (z - L_e - L_a)/L_c, & z > L_e + L_a \end{cases}$$ {#eq-mdot}
+
+Momentum uap diselesaikan dari persamaan Navier--Stokes satu dimensi yang dirata-ratakan pada penampang, dengan suku gesekan dinding dan suku fluks momentum,
+
+$$\frac{dP_v}{dz} = -\frac{f_v \rho_v u_v^{2}}{2 D_v} - \beta \frac{d(\rho_v u_v^{2})}{dz}$$ {#eq-momentum}
+
+dengan $u_v = \dot m_v/(\rho_v A_v)$ dan $D_v = 2 r_v$. Faktor gesek Darcy mengikuti rezim aliran,
+
+$$f_v = \begin{cases} 64/Re_v, & Re_v < 2300 \\ 0{,}3164\,Re_v^{-0{,}25}, & Re_v \ge 2300 \end{cases}, \qquad Re_v = \frac{\rho_v u_v D_v}{\mu_v}$$ {#eq-fv}
+
+Koefisien $\beta$ membedakan injeksi massa pada evaporator ($\beta = 1$) dari pengisapan massa pada kondensor ($\beta = 0{,}65$). Perbedaan ini penting: pada evaporator, penambahan massa radial mempercepat aliran aksial sehingga menambah rugi tekanan, sedangkan pada kondensor pengisapan memperlambat aliran sehingga terjadi pemulihan tekanan parsial [@faghri1995heat].
+
+Karena $T$ dan $P$ terikat oleh kesetimbangan saturasi, (@eq-momentum) merupakan persamaan diferensial biasa untuk $P_v(z)$ saja. Persamaan tersebut diintegrasikan mundur dari $z = L$, tempat $P_v = P_{sat}(T_c)$ dan $u_v = 0$, menuju $z = 0$ dengan metode Runge--Kutta orde empat pada 240 titik grid. Hasilnya adalah profil tekanan, temperatur, kecepatan, dan bilangan Mach sepanjang pipa.
+
+Bilangan Mach lokal dihitung dengan kecepatan suara uap monatomik,
+
+$$c_s = \sqrt{\gamma R_g T}, \qquad Ma(z) = \frac{u_v(z)}{c_s}, \qquad \gamma = 5/3$$ {#eq-mach}
+
+## Aliran Balik Cairan pada Sumbu Komposit
+
+Cairan yang terkondensasi di kondensor harus kembali ke evaporator melalui sumbu berpori. Untuk sumbu komposit yang terdiri atas arteri annular terbuka dan lapisan kasa halus pembentuk meniskus, aliran cairan mengikuti
+
+$$\frac{dP_l}{dz} = \frac{\mu_l \dot m_l}{\rho_l A_w K} + \frac{\rho_l g \sin\psi}{1}$$ {#eq-darcy}
+
+dengan $A_w$ luas penampang aliran efektif sumbu dan $K$ permeabilitas. Suku inersia Ergun diabaikan karena bilangan Reynolds cairan dalam pori berorde jauh di bawah satu untuk seluruh kasus yang ditinjau. Kekekalan massa memberikan $\dot m_l(z) = \dot m_v(z)$, sehingga profil laju alir cairan identik dengan profil uap.
+
+Nilai permeabilitas ditentukan oleh struktur sumbu. Untuk arteri annular terbuka dengan celah radial $b$, pendekatan saluran sempit memberikan $K \approx b^{2}/8$; untuk $b = 0{,}8$ mm diperoleh $K \approx 8 \times 10^{-8}$ m$^{2}$, jauh lebih besar daripada sumbu kasa tunggal yang hanya berkisar $10^{-11}$--$10^{-10}$ m$^{2}$ [@chi1976heat]. Dalam model ini dipakai nilai konservatif $K = 5 \times 10^{-9}$ m$^{2}$ untuk memperhitungkan penyempitan akibat dinding arteri dan sisa kasa.
+
+Tekanan kapiler yang tersedia pada meniskus mengikuti persamaan Young--Laplace,
+
+$$\Delta P_{c}(z) = P_v(z) - P_l(z) \le \Delta P_{c,maks} = \frac{2\sigma}{r_{eff}}$$ {#eq-laplace}
+
+dengan $r_{eff}$ jari-jari pori efektif kasa pembentuk meniskus dan sudut kontak diambil nol karena natrium membasahi logam refraktori secara sempurna. Syarat operasi tunak adalah
+
+$$\Delta P_{c,maks} \ge \Delta P_v + \Delta P_l + \Delta P_g$$ {#eq-neraca-tekanan}
+
+dengan $\Delta P_v$ rugi tekanan uap total, $\Delta P_l$ rugi tekanan cairan total, dan $\Delta P_g = \rho_l g L \sin\psi$ komponen hidrostatik.
+
+## Batas-Batas Operasi
+
+### Batas Kapiler
+
+Batas kapiler tercapai ketika kebutuhan tekanan sirkulasi menyamai tekanan kapiler maksimum. Karena $\Delta P_v$ tumbuh sebanding $Q^{2}$ sedangkan $\Delta P_l$ sebanding $Q$, batas ini ditentukan dengan metode bagi dua (*bisection*) pada $Q$ hingga (@eq-neraca-tekanan) terpenuhi sebagai persamaan. Pendekatan ini lebih akurat daripada rumus tertutup $Q_{cap} = (\Delta P_{c,maks} - \Delta P_g)/[(F_l + F_v)L_{eff}]$ yang mengabaikan ketergantungan $F_v$ pada $Q$.
+
+### Batas Sonik
+
+Ketika temperatur rendah, densitas uap sangat kecil sehingga kecepatan uap di ujung evaporator dapat mencapai kecepatan suara. Korelasi Levy--Busse memberikan
+
+$$Q_{sonic} = A_v \rho_v h_{fg} \sqrt{\frac{\gamma R_g T}{2(\gamma + 1)}}$$ {#eq-sonic}
+
+Korelasi ini mengasumsikan densitas uap konstan sepanjang pipa. Model ini juga menghitung bilangan Mach secara langsung dari (@eq-mach), sehingga dapat diperiksa apakah korelasi tersebut konservatif atau tidak.
+
+### Batas Entrainment
+
+Tetesan cairan terlepas dari permukaan meniskus ketika gaya geser uap melampaui gaya tegangan permukaan. Kriteria Weber $We = \rho_v u_v^{2}(2 r_{eff})/\sigma \ge 1$ memberikan
+
+$$Q_{ent} = A_v h_{fg} \sqrt{\frac{\sigma \rho_v}{2 r_{eff}}}$$ {#eq-ent}
+
+### Batas Viskos
+
+Pada temperatur sangat rendah, gradien tekanan viskos dapat mencekik aliran sebelum rezim sonik tercapai. Batas Busse untuk kasus ini adalah
+
+$$Q_{visc} = \frac{r_v^{2} h_{fg} \rho_v P_{sat} A_v}{16 \mu_v L_{eff}}$$ {#eq-visc}
+
+### Batas Pendidihan
+
+Jika fluks kalor radial terlalu tinggi, gelembung uap dapat terbentuk di dalam pori dan mengisolasi dinding dari pasokan cairan. Ambang terjadinya nukleasi pada rongga berjari-jari $r_n$ adalah
+
+$$\Delta T_{krit} = \frac{2 \sigma T_{sat}}{\rho_v h_{fg} r_n}, \qquad
+Q_{boil} = \frac{2 \pi L_e k_{eff} \Delta T_{krit}}{\ln(r_i/r_v)}$$ {#eq-boil}
+
+dengan $k_{eff}$ konduktivitas efektif sumbu jenuh menurut model Maxwell--Eucken dan $r_n = 2{,}5$ µm.
+
+Amplop operasi adalah nilai minimum dari kelima batas,
+
+$$Q_{env}(T) = \min\left(Q_{cap},\, Q_{sonic},\, Q_{ent},\, Q_{visc},\, Q_{boil}\right)$$ {#eq-env}
+
+## Jaringan Hambatan Termal Radial
+
+Beda temperatur antara dinding evaporator dan dinding kondensor terdiri atas empat komponen: konduksi radial pada dinding evaporator, konduksi radial pada sumbu, penurunan temperatur uap akibat gradien tekanan, dan konduksi radial pada dinding kondensor. Masing-masing dinyatakan sebagai
+
+$$R_{wall} = \frac{\ln(r_o/r_i)}{2\pi k_w L_e}, \quad
+R_{wick} = \frac{\ln(r_i/r_v)}{2\pi k_{eff} L_e}, \quad
+R_{vap} = \frac{8 \mu_v T}{\pi \rho_v^{2} h_{fg}^{2} r_v^{4}}$$ {#eq-rth}
+
+Hambatan total pipa adalah $R_{th} = R_{wall} + R_{wick} + R_{cond,wall} + R_{vap}$, dan beda temperatur totalnya $\Delta T_{hp} = Q R_{th}$ ditambah penurunan temperatur saturasi sepanjang inti uap.
+
+## Konduksi Radial Pelet Uranium Nitrida
+
+Pelet bahan bakar ISR berbentuk anular: panas dibangkitkan di dalam annulus dan mengalir ke dalam menuju pipa kalor, sedangkan permukaan luar pelet bersentuhan dengan kelongsong yang secara termal mendekati adiabatik. Untuk pembangkitan volumetrik seragam $q'''$ dan temperatur permukaan dalam $T_i$, solusi tunak persamaan konduksi satu dimensi adalah
+
+$$T(r) = T_i + \frac{q'''}{2k}\left[r_o^{2}\ln\frac{r}{r_i} - \frac{r^{2} - r_i^{2}}{2}\right]$$ {#eq-fuel}
+
+sehingga kenaikan temperatur puncak di permukaan luar pelet, tempat $T$ maksimum, adalah
+
+$$\Delta T_{UN} = \frac{q'''}{2k_{UN}}\left[r_o^{2}\ln\frac{r_o}{r_i} - \frac{r_o^{2} - r_i^{2}}{2}\right]$$ {#eq-dtfuel}
+
+dengan $q''' = Q_{pin}/[\pi(r_o^{2} - r_i^{2})H]$. Persamaan ini mengabaikan ketergantungan $k_{UN}$ pada temperatur dan gradasi pembangkitan akibat *burnup*; keduanya bersifat konservatif karena menaikkan perkiraan temperatur puncak.
+
+## Pengaruh Gravitasi dan Rezim Mikrogravitasi
+
+Komponen hidrostatik $\Delta P_g = \rho_l g L \sin\psi$ hilang pada $g = 0$. Pada pengujian darat dengan evaporator di atas ($\psi = 90^\circ$), suku ini mencapai sekitar 3,4 kPa untuk pipa sepanjang 0,46 m pada 1075 K, yaitu sekitar 20% dari tekanan kapiler maksimum. Karena itu pengujian darat selalu memberikan batas operasi yang lebih rendah daripada operasi sesungguhnya di orbit, dan perbedaan tersebut harus diperhitungkan ketika hasil uji bumi dipakai untuk merancang pipa kalor antariksa.
+
+## Hipotesis
+
+Berdasarkan tinjauan teoretis di atas, diajukan tiga hipotesis.
+
+1. Model tereduksi satu dimensi yang menggabungkan momentum uap kompresibel, filtrasi Darcy, dan jaringan hambatan termal mampu mereproduksi karakteristik beda temperatur pipa kalor KRUSTY dengan kesalahan rata-rata di bawah 10% pada pengujian *leave-one-out*.
+2. Pada rentang temperatur kerja 1000--1150 K, mekanisme pembatas pipa kalor berukuran diameter luar 16--20 mm adalah batas entrainment, bukan batas kapiler sebagaimana lazim diasumsikan pada literatur pipa kalor logam cair.
+3. Penggantian loop pompa Na-78K oleh pipa kalor natrium pada teras ISR 500 kWth menghasilkan margin keselamatan positif untuk seluruh 61 pin, tetapi menuntut pengurangan volume bahan bakar lebih dari 20% akibat pelebaran rongga tengah pin.

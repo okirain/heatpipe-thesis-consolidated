@@ -1,0 +1,152 @@
+# HASIL DAN PEMBAHASAN
+
+## Verifikasi Numerik
+
+Sebelum model dipakai untuk mengambil keputusan desain, harus dipastikan lebih dahulu bahwa kode menyelesaikan persamaan yang dimaksud. Tabel 5.1 merangkum lima uji verifikasi yang dijalankan.
+
+{{< include tables/tab_verifikasi.md >}}
+
+Uji konvergensi grid menunjukkan bahwa rugi tekanan uap sudah stabil pada grid kasar: dengan 30 titik, deviasi terhadap solusi acuan 1920 titik hanya 0,28%, dan pada 120 titik deviasi turun menjadi 0,03%. Pola ini khas untuk integrasi Runge--Kutta orde empat pada persamaan yang halus, dan menjadi alasan mengapa grid 240 titik dipakai pada seluruh perhitungan berikutnya: akurasi yang diperoleh sudah jauh melampaui ketidakpastian korelasi sifat termofisika.
+
+Neraca energi terpenuhi secara eksak karena laju alir massa ditetapkan dari daya dan kalor laten. Uji yang lebih bermakna adalah perbandingan komponen rugi tekanan dengan solusi analitik. Rugi tekanan cairan hasil integrasi numerik berbeda 0,02% dari solusi Darcy analitik, sedangkan rugi tekanan uap pada kasus bermassa konstan berbeda 0,25% dari solusi Hagen--Poiseuille. Kedua angka ini menunjukkan bahwa skema integrasi dan penanganan syarat batas bekerja sebagaimana mestinya, bukan sekadar menghasilkan angka yang masuk akal.
+
+Uji jangkar sifat mengonfirmasi bahwa kelima korelasi yang dipakai konsisten dengan nilai rujukan pada 1000 K, dengan deviasi terbesar 0,55% pada kalor laten. Yang paling penting adalah titik didih: integrasi Clausius--Clapeyron mengembalikan 1156,25 K, berbeda 0,004% dari nilai 1156,2 K yang menjadi jangkar integrasi, sehingga tidak ada galat akumulasi yang berarti.
+
+Sebagai pemeriksaan tambahan, bilangan Mach maksimum pada titik beban puncak adalah 0,165. Nilai ini jauh di bawah satu, sehingga aliran uap pada titik desain berada pada rezim subsonik dan korelasi batas sonik tidak perlu dipakai secara langsung untuk menilai kelayakan; korelasi tersebut tetap dihitung sebagai pembanding pada pemetaan amplop.
+
+## Validasi terhadap Uji KRUSTY
+
+Validasi dilakukan terhadap lima kondisi tunak uji KRUSTY pada rentang 312,5--1000 W per pipa. Model menghitung beda temperatur intrinsik pipa $\Delta T_{hp}$ terlebih dahulu, kemudian dua konstanta antarmuka dikalibrasi dengan skema *leave-one-out*.
+
+{{< include tables/tab_krusty.md >}}
+
+Hasil kalibrasi memberikan $R_{int} = 0{,}0384$ K/W dan $b = 11{,}86$ K. Nilai $R_{int}$ berada di dalam rentang 0,022--0,067 K/W yang diperkirakan secara independen dari konduktansi kontak logam, sehingga parameter kalibrasi ini memiliki dasar fisik dan bukan sekadar pemasangan kurva. Offset $b$ sebesar 11,86 K mencerminkan bahwa termokopel kondensor tidak berada tepat pada antarmuka uap-kondensat, sehingga selalu membaca temperatur yang lebih rendah daripada temperatur saturasi di dalam pipa.
+
+Dengan protokol tersebut, diperoleh MAPE 4,68%, RMSE 2,08 K, dan $R^{2} = 0{,}961$; galat terbesar 6,29% terjadi pada titik daya tertinggi ($Q$ = 1000 W). Nilai ini menunjukkan bahwa model mampu memprediksi beda temperatur pada titik yang tidak dipakai untuk kalibrasi dalam batas sekitar 5%, yang untuk keperluan penyaringan geometri lebih dari memadai.
+
+![(a) Karakteristik beda temperatur terhadap daya: data uji KRUSTY dan prediksi model *leave-one-out*; (b) diagram paritas dengan pita $\pm10\%$.](figures/validasi_profil.pdf){#fig-validasi width=95%}
+
+Yang perlu ditekankan adalah besarnya $\Delta T_{hp}$ itu sendiri: hanya 1,55 K pada 312,5 W dan 4,37 K pada 1000 W, sehingga hambatan termal intrinsik pipa berada pada 4,4--5,0$\times10^{-3}$ K/W. Angka ini sesuai dengan hambatan termal pipa kalor natrium yang dilaporkan pada literatur, yaitu orde $10^{-3}$ K/W untuk pipa sepanjang satu meter dengan inti uap belasan milimeter [@faghri1995heat; @dunn2012heat]. Dengan kata lain, hampir seluruh beda temperatur yang terukur pada uji KRUSTY berasal dari antarmuka pengujian, bukan dari pipanya. Model satu dimensi karena itu tidak dapat dan tidak seharusnya dipaksa mencocokkan beda temperatur total tanpa parameter antarmuka.
+
+Konsekuensi metodologisnya penting bagi Bab V selanjutnya: ketika model diterapkan pada teras ISR, yang dilaporkan adalah temperatur dinding dan temperatur bahan bakar yang dihitung dari fisika pipa, bukan temperatur yang dipengaruhi kondisi pengujian. Ketidakpastian yang tersisa adalah ketidakpastian model fisika, bukan ketidakpastian antarmuka.
+
+## Karakteristik Amplop Operasi dan Pengaruh Mikrogravitasi
+
+Pemetaan amplop operasi dilakukan pada rentang 900--1150 K, yaitu rentang yang mencakup seluruh kemungkinan titik kerja teras ISR. Tabel 5.3 menyajikan nilai kelima batas pada beberapa temperatur kunci, sedangkan Gambar 5.2 menampilkannya secara kontinu.
+
+{{< include tables/tab_amplop.md >}}
+
+![Amplop batas operasi pipa kalor natrium OD 18 mm pada mikrogravitasi (garis penuh) dan pada pengujian darat melawan gravitasi (garis putus-putus abu-abu). Garis ungu menandai beban puncak pin ISR.](figures/amplop_operasi.pdf){#fig-amplop width=72%}
+
+Tiga rezim terbaca jelas dari gambar tersebut. Pada temperatur di bawah 950 K, batas sonik dan batas viskos mendominasi: pada 900 K, tekanan uap jenuh hanya 11 kPa sehingga densitas uap sangat rendah dan daya transpor terbatas pada 4,68 kW. Rezim ini relevan bukan untuk operasi nominal, melainkan untuk penyalaan, ketika pipa harus melewati temperatur rendah sebelum mencapai kondisi kerja. Karena itu prosedur penyalaan bertahap (*controlled startup*) tetap diperlukan meskipun reaktor dirancang beroperasi pada 1075 K.
+
+Pada rentang 1000--1150 K, batas yang menentukan adalah entrainment, bukan kapiler. Pada 1075 K, batas kapiler mencapai 51,97 kW sedangkan batas entrainment hanya 15,22 kW; artinya sumbu masih sanggup membangkitkan tekanan kapiler yang jauh lebih besar daripada yang dibutuhkan, tetapi uap yang bergerak dengan kecepatan 133 m/s di atas permukaan meniskus berpori 15 µm sudah cukup untuk menyeret tetesan cairan. Batas pendidihan sangat tinggi (169,8 kW) karena konduktivitas natrium cair yang besar mencegah terbentuknya superheat berarti pada dinding sumbu.
+
+Temuan ini membalik asumsi yang lazim dipakai pada kajian pipa kalor logam cair, yang biasanya menempatkan batas kapiler sebagai pembatas utama pada temperatur tinggi. Penjelasannya bersifat geometris: pipa in-pin terpaksa berdiameter kecil karena harus masuk ke rongga pin, sehingga luas penampang uapnya kecil dan kecepatan uapnya tinggi. Pada pipa berdiameter besar, urutan batas akan kembali seperti biasa. Karena itu pernyataan "batas kapiler adalah pembatas" tidak berlaku umum; ia bergantung pada rasio antara luas penampang uap dan daya yang dibawa, yang pada desain in-pin justru tidak menguntungkan.
+
+Pengaruh gravitasi tampak pada kurva putus-putus. Pada 1075 K, batas kapiler turun dari 51,97 kW pada $0g$ menjadi 34,54 kW pada $1g$ dengan evaporator di atas, yaitu penurunan 34%. Penurunan ini berasal dari head hidrostatik 3,4 kPa yang harus dilawan cairan, sebanding dengan 20% tekanan kapiler maksimum. Sebaliknya, batas entrainment dan sonik tidak berubah karena keduanya tidak bergantung pada gravitasi. Implikasinya praktis: pengujian pipa kalor ISR di laboratorium Bumi pada orientasi terburuk akan menunjukkan batas sekitar 34 kW, sedangkan operasi di orbit akan memberikan batas 52 kW. Pengujian darat karena itu konservatif, tetapi tidak boleh dipakai untuk menyimpulkan kegagalan desain pada kondisi antariksa.
+
+## Profil Aksial pada Beban Puncak
+
+Gambar 5.3 menampilkan profil tekanan, bilangan Mach, dan tekanan kapiler pada pin pusat dengan daya 11,07 kWth.
+
+![Profil aksial pada pin beban puncak: (a) tekanan uap dan tekanan cairan; (b) bilangan Mach; (c) tekanan kapiler lokal dibandingkan tekanan kapiler maksimum.](figures/profil_detail.pdf){#fig-profil width=100%}
+
+Tekanan uap turun dari 50,5 kPa di awal evaporator menjadi 50,0 kPa di akhir kondensor, yaitu rugi total hanya 514 Pa atau sekitar 1% dari tekanan absolut. Penurunan kecil ini terjadi karena densitas uap natrium pada 1075 K sudah cukup tinggi; sebagai perbandingan, pada 900 K rugi tekanan untuk daya yang sama akan berkali lipat lebih besar. Tekanan cairan bergerak berlawanan arah: turun dari 50,0 kPa di kondensor menjadi 47,9 kPa di evaporator, dengan rugi total 2106 Pa. Dengan demikian tekanan kapiler yang dibutuhkan di evaporator adalah 2621 Pa, yaitu 15,4% dari tekanan kapiler maksimum 17,06 kPa; margin tekanan yang tersedia 84,6%.
+
+Konsekuensi termalnya adalah perilaku kuasi-isotermal: beda temperatur saturasi antara evaporator dan kondensor hanya 1,1 K. Inilah keunggulan intrinsik pipa kalor sebagai penghubung termal, dan alasan mengapa desain reaktor antariksa dapat mentransfer panas dari teras ke konverter dengan gradien temperatur yang sangat kecil.
+
+Profil bilangan Mach memperlihatkan bentuk segitiga khas: nol di kedua ujung karena laju alir massa nol, dan maksimum 0,165 pada akhir zona adiabatik tempat laju alir massa mencapai puncak sekaligus densitas mulai menurun. Profil tekanan kapiler memperlihatkan nilai maksimum di awal evaporator dan menurun menuju nol di ujung kondensor, sesuai dengan distribusi kebutuhan tekanan sepanjang siklus.
+
+Hambatan termal pipa terurai menjadi tiga komponen: dinding Mo-30Re $7,06\times10^{-4}$ K/W, sumbu komposit $1,28\times10^{-3}$ K/W, dan uap $1,18\times10^{-4}$ K/W. Sumbu menyumbang 60% hambatan total, yang menunjukkan bahwa perbaikan performa termal harus diarahkan pada konduktivitas efektif sumbu, bukan pada ketebalan dinding. Dengan $k_{eff} \approx 40$ W/(m·K) pada sumbu jenuh natrium, kenaikan temperatur radial dari dinding dalam ke inti uap adalah 14,2 K pada beban puncak — masih wajar, tetapi menjadi penyumbang terbesar beda temperatur pipa.
+
+## Optimasi Geometri Pipa
+
+Pemilihan diameter pipa adalah persoalan optimasi dengan dua sasaran yang berlawanan: diameter besar menaikkan kapasitas termal, tetapi memakan volume bahan bakar karena pipa harus masuk ke rongga tengah pin. Sapuan dilakukan pada delapan diameter dari 10 mm hingga 24 mm dengan tebal dinding, tebal sumbu, permeabilitas, dan jari-jari pori yang dijaga tetap, sehingga yang berubah hanya luas penampang uap dan konsekuensinya terhadap volume bahan bakar.
+
+{{< include tables/tab_trade.md >}}
+
+![Pengaruh diameter luar pipa terhadap (atas) batas-batas operasi pada 1075 K dan (bawah) faktor keselamatan serta kehilangan volume bahan bakar. Pita biru menandai diameter terpilih.](figures/trade_geometri.pdf){#fig-trade width=70%}
+
+Hasil sapuan menunjukkan bahwa kapasitas termal naik cepat terhadap diameter: pada 10 mm amplop hanya 3,11 kW, pada 16 mm 11,33 kW, dan pada 24 mm 30,29 kW. Kenaikan ini berasal dari dua sumber sekaligus, yaitu luas penampang uap yang bertambah sebanding $D_v^{2}$ dan densitas uap yang bertambah karena diameter lebih besar memungkinkan rugi tekanan lebih kecil. Batas entrainment tetap menjadi pembatas pada seluruh rentang, dengan batas sonik mendekat pada diameter kecil dan batas kapiler baru melampaui entrainment pada diameter 10 mm.
+
+Kriteria pemilihan dinyatakan eksplisit: pilih diameter terkecil yang memberikan $SF \ge 1{,}3$ pada beban puncak 11,07 kW, karena setiap milimeter tambahan diameter berarti tambahan kehilangan bahan bakar. Dengan kriteria itu, diameter 16 mm menghasilkan $SF = 1{,}02$ sehingga tidak memenuhi syarat, sedangkan diameter 18 mm menghasilkan $SF = 1{,}37$ dengan kehilangan volume bahan bakar 26,4%. Diameter 20 mm memang memberikan $SF = 1{,}78$, tetapi kehilangan bahan bakar naik menjadi 34,0%, sehingga tambahan margin 30% harus dibayar dengan tambahan kehilangan bahan bakar 29% — pertukaran yang tidak sepadan untuk reaktor yang marginnya sudah memadai.
+
+Diameter 18 mm juga memiliki keunggulan praktis. Angka ini dekat dengan diameter pipa KRUSTY (15,88 mm), sehingga proses pembuatan, pengelasan ujung, dan pengisian natrium dapat mengacu pada pengalaman manufaktur yang sudah ada. Dengan tebal dinding 0,9 mm dan tebal sumbu 0,8 mm, diameter inti uap menjadi 14,6 mm, dan rongga pin yang harus disediakan adalah 18,2 mm termasuk kelonggaran pemasangan.
+
+## Integrasi Teras 61 Pin
+
+Distribusi daya radial dibangun dari lima cincin konsentris dengan faktor puncak 1,28 pada pin pusat hingga 0,81 pada cincin terluar, dinormalisasi sehingga jumlah daya seluruh pin tepat 500 kWth. Normalisasi ini penting: tanpa normalisasi, penjumlahan daya cincin tidak akan sama dengan daya teras, dan kesalahan semacam itu sering luput pada studi yang hanya mengalikan daya rata-rata dengan faktor puncak. Dengan normalisasi, daya pin rata-rata menjadi 8,20 kWth dan daya pin pusat 11,07 kWth, yaitu rasio puncak-terhadap-rata 1,35.
+
+{{< include tables/tab_teras.md >}}
+
+![Faktor keselamatan terhadap ketiga batas dominan pada setiap cincin teras.](figures/margin_teras.pdf){#fig-margin width=70%}
+
+Seluruh 61 pin beroperasi dengan faktor keselamatan di atas 1,3. Pin pusat, yang menjadi kasus terberat, memiliki $SF = 1{,}37$ terhadap batas entrainment, 2,66 terhadap batas sonik, dan 4,69 terhadap batas kapiler. Margin tekanan kapiler pada pin pusat adalah 84,6%, dan pada cincin terluar mencapai 90,8%. Pola ini masuk akal: cincin luar membawa daya lebih kecil sementara geometri pipanya identik, sehingga marginnya lebih longgar.
+
+Temperatur dinding kelongsong pada pin pusat mencapai 1096,2 K, yaitu 22,1 K di atas temperatur uap akibat hambatan dinding dan sumbu. Temperatur puncak bahan bakar mencapai 1249,0 K, dengan kenaikan 152,8 K di dalam pelet akibat pembangkitan volumetrik 7,71$\times10^{7}$ W/m³. Angka ini berada 401 K di bawah batas desain 1650 K, sehingga integritas bahan bakar tidak menjadi persoalan.
+
+Yang perlu dicatat adalah bahwa kenaikan temperatur di dalam pelet (152,8 K) jauh lebih besar daripada kenaikan temperatur di dalam pipa (22,1 K). Ini konsekuensi langsung dari berkurangnya volume bahan bakar: daya yang sama dibangkitkan dalam volume yang 27% lebih kecil, sehingga pembangkitan volumetrik naik 37% dan gradien temperaturnya ikut naik. Dengan kata lain, pengecilan volume bahan bakar bukan hanya persoalan neutronik, tetapi juga menaikkan temperatur bahan bakar pada daya yang sama.
+
+## Toleransi Kegagalan Pipa
+
+Kegagalan satu pipa kalor adalah skenario yang harus dapat ditanggung tanpa menyebabkan kerusakan teras. Ketika satu pipa berhenti bekerja, 11,07 kW dari pin tersebut harus mengalir secara lateral melalui blok kelongsong menuju enam pin tetangga. Dengan konduktansi celah efektif 2000 W/(m²·K) pada luas kontak lateral 0,020 m², hambatan lateralnya adalah 0,025 K/W, sehingga kenaikan temperatur bahan bakar pin yang gagal mencapai 277 K dan temperaturnya menjadi 1526 K.
+
+Angka tersebut masih di bawah batas 1650 K, sehingga kegagalan satu pipa dapat ditoleransi. Beban tambahan pada setiap tetangga adalah 1,85 kW atau 17,6% dari daya pin tetangga, sehingga faktor keselamatan tetangga turun dari 1,37 menjadi 1,18. Nilai ini masih di atas satu, artinya tetangga tetap beroperasi, tetapi marginnya menipis. Apabila dua pipa gagal bersamaan, kenaikan temperatur mencapai 554 K dan temperatur bahan bakar pin yang gagal menjadi 1803 K, melampaui batas 1650 K; skenario dua kegagalan bersamaan karena itu tidak dapat ditoleransi tanpa tindakan tambahan.
+
+Kesimpulan ini lebih hati-hati daripada klaim bahwa sistem pipa kalor "tahan terhadap kegagalan dua pin". Yang dapat dinyatakan adalah bahwa satu kegagalan terisolasi dan tidak menjalar, sedangkan dua kegagalan bersamaan memerlukan strategi mitigasi, misalnya penurunan daya teras atau peningkatan konduktansi lateral melalui lapisan kontak termal.
+
+## Neraca Massa dan Daya Parasitik
+
+Perbandingan massa dilakukan dengan menguraikan subsistem pendingin baseline menjadi komponen-komponen yang dapat diperiksa, bukan dengan membandingkan dua angka total yang sumbernya tidak jelas.
+
+{{< include tables/tab_massa_base.md >}}
+
+{{< include tables/tab_massa_retr.md >}}
+
+{{< include tables/tab_massa.md >}}
+
+Subsistem pendingin baseline diperkirakan berbobot 65,0 kg, terdiri atas dua pompa elektromagnetik (satu cadangan), pengondisian daya, tangki ekspansi dan gas penutup, perpipaan bertekanan, inventaris Na-78K, serta instrumentasi. Retrofit 61 pipa kalor diperkirakan berbobot 24,1 kg, terdiri atas selubung Mo-30Re, struktur kasa dan arteri, inventaris natrium yang jauh lebih kecil, serta blok sadel penghubung ke penukar kalor. Selisih bersihnya adalah 40,94 kg atau 63,0% dari massa subsistem pendingin.
+
+Angka ini perlu dibaca dengan hati-hati karena bergantung pada asumsi yang dinyatakan. Ketebalan dinding 0,9 mm dipilih dari batas manufaktur, bukan dari kekuatan; tegangan hoop pada tekanan 50 kPa hanya menuntut dinding beberapa mikrometer, sehingga dinding 0,5 mm secara teknis layak dan akan menurunkan massa pipa sekitar 45%. Sebaliknya, ketidakpastian pada massa blok sadel dan header bisa mencapai beberapa kilogram. Dengan rentang asumsi tersebut, penghematan massa subsistem berada pada kisaran 30--45 kg.
+
+![Perbandingan massa subsistem pendingin antara loop pompa Na-78K dan sistem 61 pipa kalor.](figures/neraca_massa.pdf){#fig-massa width=62%}
+
+Daya parasitik pompa dihitung dari kebutuhan hidraulik sebenarnya, bukan diasumsikan.
+
+{{< include tables/tab_pompa.md >}}
+
+Pada daya teras 500 kWth dengan beda temperatur loop 200 K, laju alir Na-78K yang dibutuhkan adalah 2,08 kg/s. Dengan rugi tekanan total 30 kPa, daya hidrauliknya hanya 80 W; pada efisiensi pompa elektromagnetik 15%, daya listrik yang dibutuhkan adalah 534 W atau 0,107% dari daya termal. Angka ini jauh lebih kecil daripada asumsi 12,5--18,5 kWe yang kadang dipakai pada studi sejenis, dan perbedaannya penting: pompa bukan beban daya yang besar, sehingga penghapusannya tidak memberikan keuntungan listrik yang dramatis. Keuntungan utama penghapusan pompa terletak pada keandalan, bukan pada efisiensi.
+
+Perbandingan menyeluruh antara kedua sistem dirangkum pada Tabel 5.10.
+
+| Aspek | Baseline Na-78K | Retrofit pipa kalor natrium |
+|:---|:---|:---|
+| Fluida pendingin | Eutektik Na-78K, fase tunggal | Natrium murni, dua fasa |
+| Mekanisme aliran | Pompa elektromagnetik aktif | Tekanan kapiler pasif |
+| Titik didih pada tekanan operasi | $\pm$1000 K | 1156 K pada 1 atm |
+| Temperatur kerja teras | 750 K masuk / 950 K keluar | 1074 K isotermal |
+| Daya parasitik | 0,53 kW | 0 |
+| Massa subsistem | 65,0 kg | 24,1 kg |
+| Getaran mekanik | Ada, dari pulsasi pompa | Tidak ada |
+| Modus kegagalan | Pompa macet berujung kehilangan pendinginan teras | Satu pipa gagal bersifat lokal |
+| Pembuangan panas peluruhan | Memerlukan daya cadangan | Berlangsung pasif |
+| Konsekuensi pada bahan bakar | Tidak ada | Volume UN berkurang 27,2% |
+
+: Perbandingan menyeluruh sistem pendingin teras ISR. {#tbl-perbandingan}
+
+## Pembahasan: Harga Bahan Bakar dan Batas Kesimpulan
+
+Keuntungan massa dan keselamatan di atas harus dibayar dengan bahan bakar. Melebarkan rongga tengah pin dari 7,65 mm menjadi 18,2 mm mengurangi luas annulus bahan bakar dari 788,8 mm² menjadi 574,2 mm², sehingga volume uranium nitrida per pin turun dari 197,2 cm³ menjadi 143,6 cm³.
+
+{{< include tables/tab_bahan_bakar.md >}}
+
+Total massa UN untuk 61 pin turun dari 154,83 kg menjadi 112,78 kg, yaitu kehilangan 27,16%. Karena umur teras sebanding dengan inventaris fisil dibagi daya, kehilangan ini secara langsung memangkas umur dari 17 tahun menjadi sekitar 12,4 tahun apabila daya dan pengayaan dipertahankan. Untuk memulihkan volume bahan bakar pada diameter pin yang sama, tinggi aktif harus dinaikkan dari 250 mm menjadi 343 mm; alternatifnya adalah menaikkan pengayaan, yang tidak dievaluasi di sini karena berada di luar lingkup termohidrolika.
+
+Dengan demikian gambaran akhirnya lebih berimbang daripada narasi yang biasa muncul pada studi pipa kalor. Jika tinggi aktif dipertahankan, massa reaktor turun karena dua sebab sekaligus — penghematan subsistem 40,94 kg dan pengurangan bahan bakar 42,05 kg — tetapi sebagian penurunan itu adalah konsekuensi umur teras yang lebih pendek, bukan efisiensi desain. Jika tinggi aktif dinaikkan untuk mempertahankan umur, massa bahan bakar kembali dan massa bejana serta reflektor bertambah, sehingga penghematan bersih menyusut menjadi orde 10--25 kg. Manfaat yang tidak menyusut adalah hilangnya komponen bergerak, hilangnya daya parasitik, dan degradasi bertahap ketika satu pipa gagal.
+
+Beberapa keterbatasan perlu dinyatakan agar kesimpulan tidak dibaca melebihi dukungannya. Pertama, model bersifat tunak sehingga tidak dapat menilai perilaku penyalaan, pembekuan natrium, atau transien daya; padahal justru pada transien penyalaan batas sonik dan viskos paling kritis. Kedua, aliran uap diselesaikan satu dimensi dengan asumsi saturasi lokal, sehingga fenomena tiga dimensi seperti resirkulasi di ujung kondensor dan ketidakseragaman film kondensat tidak tertangkap. Ketiga, kriteria entrainment yang dipakai adalah kriteria Weber klasik; kriteria ini diketahui terlalu konservatif untuk pori sangat halus dan terlalu longgar untuk permukaan kasa yang tidak seragam, sehingga margin 1,37 sebaiknya dibaca sebagai indikasi orde besaran, bukan angka pasti.
+
+Keempat, data validasi KRUSTY berjumlah lima titik dan mencakup rentang daya yang lebih rendah daripada daya pin ISR; ekstrapolasi ke 11 kW per pipa adalah ekstrapolasi faktor sebelas, sehingga validasi pada daya tinggi masih menuntut pengujian tersendiri. Kelima, analisis neutronik tidak dilakukan, padahal kehilangan 27% bahan bakar pasti mengubah reaktivitas dan koefisien umpan balik; angka umur 12,4 tahun hanyalah perkiraan skala.
+
+Keterbatasan itu tidak membatalkan kesimpulan utama, tetapi menentukan cara membacanya: model ini adalah alat penyaring desain yang telah diverifikasi dan divalidasi pada rentang terbatas, bukan pengganti pengujian.

@@ -1,0 +1,33 @@
+```{=latex}
+\phantomsection\addcontentsline{toc}{chapter}{PERNYATAAN BEBAS PLAGIASI}
+\thispagestyle{plain}
+\begin{singlespace}
+\begin{center}
+{\bfseries\MakeUppercase{PERNYATAAN BEBAS PLAGIASI}}\\[0.8cm]
+\end{center}
+\noindent Saya yang bertanda tangan di bawah ini:
+\begin{tabbing}
+\hspace{1.2cm}\= Nama \hspace{2.0cm}\= : \MakeUppercase{\nama} \\
+\> NIM \> : \nim \\
+\> Program Studi \> : Sarjana \prodi \\
+\> Departemen \> : Teknik Nuklir dan Teknik Fisika \\
+\> Fakultas \> : Teknik \\
+\end{tabbing}
+\vspace{0.3cm}
+\noindent menyatakan dengan sesungguhnya bahwa karya tulis dengan judul:
+\begin{center}
+\textbf{\judul}
+\end{center}
+\noindent merupakan hasil karya saya sendiri dan belum pernah diajukan untuk memperoleh derajat kesarjanaan di suatu perguruan tinggi. Sepanjang pengetahuan saya, karya tulis ini tidak terdapat karya atau pendapat yang pernah ditulis atau diterbitkan oleh orang lain, kecuali secara tertulis diacu dalam naskah ini dan disebutkan dalam daftar pustaka.
+
+\vspace{0.6cm}
+\begin{flushright}
+\begin{tabular}{l}
+Yogyakarta, \kotatanggal \\[1.2cm]
+\nama \\
+\nim
+\end{tabular}
+\end{flushright}
+\end{singlespace}
+\clearpage
+```

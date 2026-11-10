@@ -1,0 +1,34 @@
+```{=latex}
+\pagenumbering{roman}
+\thispagestyle{empty}
+\phantomsection\addcontentsline{toc}{chapter}{HALAMAN JUDUL}
+\begin{singlespace}
+\begin{center}
+\vspace*{0.5cm}
+{\bfseries\judul\par}
+\vspace{1.0cm}
+{\bfseries SKRIPSI\par}
+\vspace{0.8cm}
+untuk memenuhi sebagian persyaratan\\
+untuk memperoleh derajat Sarjana\\
+Program Studi \prodi
+\vspace{1.0cm}
+
+\logougm
+
+\vspace{1.0cm}
+Diajukan oleh\\
+\MakeUppercase{\nama}\\
+\nim
+\vspace{1.0cm}
+
+Kepada\\
+{\bfseries DEPARTEMEN TEKNIK NUKLIR DAN TEKNIK FISIKA}\\
+{\bfseries FAKULTAS TEKNIK}\\
+{\bfseries UNIVERSITAS GADJAH MADA}\\
+{\bfseries YOGYAKARTA}\\
+{\bfseries \tahun}
+\end{center}
+\end{singlespace}
+\clearpage
+```

@@ -1,0 +1,36 @@
+```{=latex}
+\phantomsection\addcontentsline{toc}{chapter}{HALAMAN PENGESAHAN}
+\thispagestyle{plain}
+\begin{singlespace}
+\begin{center}
+{\bfseries\MakeUppercase{HALAMAN PENGESAHAN}}\\[0.6cm]
+{\bfseries SKRIPSI}\\[0.4cm]
+{\bfseries\MakeUppercase{\judul}}\\[0.4cm]
+Dipersiapkan dan disusun oleh:\\
+\MakeUppercase{\nama}\\
+\nim\\[0.4cm]
+Telah dipertahankan di depan Dewan Penguji\\
+pada tanggal \tglujian\\[0.5cm]
+\end{center}
+\noindent\begin{tabular}{@{}p{6.2cm}p{6.2cm}@{}}
+\textbf{Pembimbing Utama} & \textbf{Pembimbing Pendamping} \\[2.0cm]
+\pembimbingutama & \pembimbingpendamping \\
+\end{tabular}
+\vspace{0.8cm}
+\noindent\begin{tabular}{@{}p{6.2cm}p{6.2cm}@{}}
+\textbf{Penguji Utama} & \textbf{Anggota Penguji} \\[2.0cm]
+\pengujiutama & \anggotapenguji \\
+\end{tabular}
+
+\vspace{0.8cm}
+\begin{center}
+Skripsi ini telah diterima sebagai salah satu persyaratan\\
+untuk memperoleh derajat Sarjana\\[0.5cm]
+Yogyakarta, \tglpengesahan\\
+Ketua Departemen Teknik Nuklir dan Teknik Fisika\\[1.6cm]
+\ketuadepartemen\\
+NIP. \nipketua
+\end{center}
+\end{singlespace}
+\clearpage
+```

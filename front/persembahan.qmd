@@ -1,0 +1,28 @@
+# HALAMAN PERSEMBAHAN & MOTTO {.unnumbered}
+
+::: {#persembahan .center}
+
+*Karya ini saya persembahkan kepada*
+
+*orang tua dan keluarga yang tidak pernah berhenti mendoakan,*
+
+*dosen-dosen Departemen Teknik Nuklir dan Teknik Fisika UGM*
+
+*yang telah membuka jalan berpikir kritis,*
+
+*serta seluruh pihak yang percaya bahwa energi nuklir layak*
+
+*dibawa Indonesia ke luar angkasa.*
+
+:::
+
+***
+
+::: {.center}
+
+*"Ilmu itu bukan yang dihafal, tetapi yang memberi manfaat."*
+
+*--- pepatah yang selalu diingatkan dosen*
+
+:::
+

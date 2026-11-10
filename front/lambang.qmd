@@ -1,0 +1,77 @@
+# DAFTAR LAMBANG DAN SINGKATAN {.unnumbered}
+
+**Lambang Romawi**
+
+| Lambang | Kuantitas | Satuan |
+|:---:|:---|:---:|
+| $A$ | Luas penampang aliran | m² |
+| $c_p$ | Kalor jenis pada tekanan tetap | J/(kg·K) |
+| $D$ | Diameter | m |
+| $F_r$ | Faktor puncak daya radial | – |
+| $f$ | Faktor gesek Darcy | – |
+| $g$ | Percepatan gravitasi | m/s² |
+| $h_{fg}$ | Kalor laten penguapan | J/kg |
+| $K$ | Permeabilitas sumbu kapiler | m² |
+| $k$ | Konduktivitas termal | W/(m·K) |
+| $L$ | Panjang | m |
+| $Ma$ | Bilangan Mach | – |
+| $\dot m$ | Laju aliran massa | kg/s |
+| $N$ | Jumlah pin bahan bakar | – |
+| $P$ | Tekanan | Pa |
+| $Q$ | Laju perpindahan kalor | W |
+| $R$ | Hambatan termal | K/W |
+| $R_g$ | Konstanta gas spesifik | J/(kg·K) |
+| $r$ | Jari-jari | m |
+| $Re$ | Bilangan Reynolds | – |
+| $T$ | Temperatur | K |
+| $u$ | Kecepatan aksial uap | m/s |
+| $V$ | Volume | m³ |
+| $We$ | Bilangan Weber | – |
+| $z$ | Koordinat aksial | m |
+
+**Lambang Yunani**
+
+| Lambang | Kuantitas | Satuan |
+|:---:|:---|:---:|
+| $\gamma$ | Rasio kalor spesifik | – |
+| $\Delta$ | Selisih | – |
+| $\varepsilon$ | Porositas sumbu | – |
+| $\theta$ | Sudut inklinasi atau sudut kontak | rad |
+| $\mu$ | Viskositas dinamis | Pa·s |
+| $\rho$ | Densitas | kg/m³ |
+| $\sigma$ | Tegangan permukaan | N/m |
+| $\psi$ | Sudut orientasi terhadap gravitasi | ° |
+
+**Subskrip**
+
+| Lambang | Deskripsi |
+|:---:|:---|
+| $a$ | Zona adiabatik |
+| $c$ | Kondenser atau kapiler |
+| $e$ | Evaporator |
+| $l$ | Fasa cair |
+| $v$ | Fasa uap |
+| $max$ | Nilai maksimum |
+| $req$ | Kebutuhan (required) |
+
+**Singkatan**
+
+| Singkatan | Kepanjangan |
+|:---:|:---|
+| BRIN | Badan Riset dan Inovasi Nasional |
+| DoE | *Department of Energy* |
+| EM | Elektromagnetik |
+| HPM | *Heat Pipe Microreactor* |
+| ISR | *Indonesian Space Reactor* |
+| KRUSTY | *Kilowatt Reactor Using Stirling TechnologY* |
+| LOCA | *Loss of Coolant Accident* |
+| LOO | *Leave-One-Out* |
+| MAPE | *Mean Absolute Percentage Error* |
+| Mo-30Re | Paduan molibdenum 30% renium |
+| Na-78K | Eutektik natrium-kalium 78% Na |
+| NASA | *National Aeronautics and Space Administration* |
+| ROM | *Reduced-Order Model* |
+| RMSE | *Root Mean Square Error* |
+| SF | *Safety Factor* |
+| UN | Uranium nitrida |
+| UGM | Universitas Gadjah Mada |

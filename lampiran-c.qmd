@@ -1,0 +1,42 @@
+# LAMPIRAN C: DATA VALIDASI DAN PARAMETER DESAIN {.unnumbered}
+
+**Tabel C.1** Kondisi tunak uji KRUSTY yang dipakai untuk validasi (SS = *steady state*).
+
+| Titik | $Q$ (W) | $T_{evap}$ (°C) | $T_{cond}$ (°C) | $\Delta T$ (K) | $R_{th}$ terukur (K/W) |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| SS-1 | 312,5 | 718 | 692 | 26,0 | 0,0832 |
+| SS-2 | 450,0 | 752 | 720 | 32,0 | 0,0711 |
+| SS-3 | 625,0 | 795 | 758 | 37,0 | 0,0592 |
+| SS-4 | 820,0 | 834 | 788 | 46,0 | 0,0561 |
+| SS-5 | 1000,0 | 868 | 812 | 56,0 | 0,0560 |
+
+**Tabel C.2** Parameter desain teras ISR yang dipakai sebagai masukan model.
+
+| Parameter | Nilai | Satuan |
+|:---|:---:|:---:|
+| Daya termal total | 500 | kWth |
+| Jumlah pin bahan bakar | 61 | – |
+| Diameter pelet UN | 32,65 | mm |
+| Rongga tengah baseline | 7,65 | mm |
+| Tinggi aktif | 250 | mm |
+| Densitas UN (95% teoretis) | 12,87 | g/cm³ |
+| Konduktivitas UN pada 1100 K | 16 | W/(m·K) |
+| Kelongsong | Mo-30Re | – |
+| Reflektor | BeO | – |
+| Daya pin rata-rata | 8,20 | kWth |
+| Faktor puncak radial ternormalisasi | 1,35 | – |
+
+```{=latex}
+\clearpage
+```
+
+**Tabel C.3** Faktor distribusi daya radial per cincin dan normalisasinya.
+
+| Cincin | Jumlah pin | $F_r$ mentah | Daya per pin (kW) | Daya cincin (kW) |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | 1 | 1,28 | 11,07 | 11,07 |
+| 2 | 6 | 1,21 | 10,47 | 62,80 |
+| 3 | 12 | 1,09 | 9,43 | 113,15 |
+| 4 | 18 | 0,93 | 8,04 | 144,81 |
+| 5 | 24 | 0,81 | 7,01 | 168,17 |
+| Jumlah | 61 | – | 8,20 (rata-rata) | 500,00 |

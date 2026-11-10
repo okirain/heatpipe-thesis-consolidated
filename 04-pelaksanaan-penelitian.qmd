@@ -1,0 +1,94 @@
+# PELAKSANAAN PENELITIAN
+
+## Alat dan Bahan Penelitian
+
+### Perangkat Lunak
+
+Seluruh perhitungan dilaksanakan dengan Python 3.12 menggunakan NumPy untuk operasi larik dan Matplotlib untuk pembuatan gambar. Kode ditulis sebagai satu paket kecil yang terdiri atas modul sifat termofisika, modul geometri, penyelesai aksial, modul batas operasi, modul termal bahan bakar, dan skrip studi yang menghasilkan seluruh tabel dan gambar pada Bab V. Pendekatan ini dipilih agar setiap angka dalam skripsi dapat dilacak kembali ke satu baris kode.
+
+Waktu eksekusi satu kali penyelesaian aksial pada grid 240 titik adalah sekitar 4 ms pada komputer jinjing biasa, sedangkan satu studi lengkap meliputi pemetaan amplop 12 temperatur, sapuan geometri 8 diameter, dan 5 cincin teras selesai dalam kurang dari satu menit. Kecepatan inilah yang membedakan model tereduksi dari kode CFD dan yang membuat iterasi desain menjadi praktis.
+
+### Bahan dan Data Penelitian
+
+Data yang dipakai terdiri atas tiga kelompok. Kelompok pertama adalah sifat termofisika natrium dari korelasi Fink dan Leibowitz [@fink1995thermodynamic]. Kelompok kedua adalah data uji KRUSTY berupa lima kondisi tunak pada rentang daya 312,5--1000 W per pipa dengan temperatur evaporator 991--1141 K dan beda temperatur terukur 26--56 K [@briggs2018electrically]. Kelompok ketiga adalah parameter desain teras ISR: 61 pin, diameter pelet 32,65 mm, rongga tengah 7,65 mm, tinggi aktif 250 mm, bahan bakar UN dengan densitas 95% teoritis, kelongsong Mo-30Re, dan daya total 500 kWth [@khandaq2020conceptual].
+
+Data KRUSTY dipakai dalam bentuk beda temperatur antara termokopel evaporator dan kondensor, bukan temperatur absolut, karena besaran itulah yang dapat dibandingkan langsung dengan model tanpa memerlukan informasi mengenai rugi kalor blok pemanas.
+
+### Parameter Desain Acuan
+
+Parameter geometri dan operasi pipa kalor yang dievaluasi ditampilkan pada Tabel 4.1. Nilai-nilai tersebut merupakan hasil studi sapuan yang dibahas pada Bab V; pada tahap pelaksanaan, nilai inilah yang dipakai sebagai titik desain.
+
+| Parameter | Nilai | Satuan |
+|:---|:---:|:---:|
+| Diameter luar selubung $D_o$ | 18,0 | mm |
+| Tebal dinding Mo-30Re | 0,9 | mm |
+| Tebal sumbu komposit | 0,8 | mm |
+| Diameter inti uap $D_v$ | 14,6 | mm |
+| Jari-jari pori efektif $r_{eff}$ | 15 | µm |
+| Permeabilitas sumbu $K$ | $5\times10^{-9}$ | m² |
+| Panjang evaporator $L_e$ | 250 | mm |
+| Panjang adiabatik $L_a$ | 50 | mm |
+| Panjang kondensor $L_c$ | 160 | mm |
+| Temperatur uap evaporator | 1075 | K |
+| Fluida kerja | Natrium | – |
+| Daya pin rata-rata | 8,20 | kWth |
+| Daya pin puncak ($F_r$ = 1,35) | 11,07 | kWth |
+
+: Parameter geometri dan operasi pipa kalor acuan untuk teras ISR. {#tbl-parameter}
+
+## Tata Laksana Penelitian
+
+Penelitian dilaksanakan dalam enam tahap yang saling bergantung (Gambar 4.1). Tahap pertama adalah konsolidasi literatur dan data sekunder, yang menghasilkan himpunan korelasi sifat, geometri acuan, dan data validasi. Tahap kedua adalah formulasi dan implementasi model. Tahap ketiga adalah verifikasi numerik, yaitu pemeriksaan bahwa kode menyelesaikan persamaan yang dimaksud dan bahwa hasilnya tidak bergantung pada grid. Tahap keempat adalah validasi terhadap data KRUSTY. Tahap kelima adalah penerapan pada teras ISR, meliputi pemetaan amplop, optimasi geometri, integrasi teras, dan analisis kegagalan. Tahap keenam adalah analisis massa, daya parasitik, dan perumusan kesimpulan.
+
+![Diagram alir pelaksanaan penelitian.](figures/diagram_alir.pdf){#fig-alir width=55%}
+
+### Algoritma Penyelesaian
+
+Penyelesaian aksial berjalan sebagai berikut.
+
+1. Tetapkan daya $Q$, temperatur kondensor $T_c$, geometri, dan kondisi gravitasi.
+2. Hitung $\dot m_{maks} = Q/h_{fg}(T_c)$ dan bentuk profil $m(z)$ menurut (@eq-mdot).
+3. Tetapkan $P_v(L) = P_{sat}(T_c)$ dan $u_v(L) = 0$ sebagai syarat batas di ujung kondensor.
+4. Integrasikan (@eq-momentum) mundur dari $z = L$ menuju $z = 0$ dengan Runge--Kutta orde empat. Pada setiap langkah, temperatur diambil dari $T_{sat}(P_v)$, densitas dari hukum gas ideal, dan faktor gesek dari bilangan Reynolds lokal.
+5. Integrasikan (@eq-darcy) mundur untuk memperoleh $P_l(z)$, lalu hitung $\Delta P_c(z) = P_v - P_l$ dan jari-jari meniskus lokal $r_c = 2\sigma/\Delta P_c$.
+6. Hitung $\Delta P_{req} = \Delta P_v + \Delta P_l + \Delta P_g$ dan bandingkan dengan $\Delta P_{c,maks}$.
+7. Untuk batas kapiler, ulangi langkah 1--6 dengan metode bagi dua pada $Q$ hingga $\Delta P_{req} = \Delta P_{c,maks}$.
+
+Langkah 7 membutuhkan sekitar 40 iterasi bagi dua, masing-masing dengan satu penyelesaian aksial pada grid kasar 80 titik. Strategi dua grid ini dipakai untuk menjaga waktu komputasi tetap rendah tanpa mengorbankan akurasi, karena batas kapiler hanya bergantung pada nilai integral tekanan.
+
+### Verifikasi Numerik
+
+Verifikasi dilakukan melalui lima uji yang masing-masing memeriksa satu aspek berbeda.
+
+1. **Konvergensi grid.** Penyelesaian diulang pada $N$ = 30, 60, 120, 240, dan 480 titik, lalu deviasi relatif $\Delta P_v$ terhadap solusi $N$ = 1920 dihitung.
+2. **Neraca energi.** Diperiksa bahwa $\dot m_{maks} h_{fg}$ tepat sama dengan $Q$ yang ditetapkan.
+3. **Aliran cairan.** Rugi tekanan cairan hasil integrasi numerik dibandingkan dengan solusi Darcy analitik $Q F_l L_{eff}$.
+4. **Aliran uap.** Rugi tekanan uap pada kasus bermassa konstan dibandingkan dengan solusi Hagen--Poiseuille.
+5. **Jangkar sifat.** Nilai $T_b$, $\rho_l(1000\ \mathrm{K})$, $\sigma(1000\ \mathrm{K})$, $h_{fg}(1000\ \mathrm{K})$, dan $P_{sat}(1000\ \mathrm{K})$ dibandingkan dengan nilai rujukan.
+
+### Protokol Validasi
+
+Validasi terhadap data KRUSTY tidak dilakukan dengan menyesuaikan model agar cocok, melainkan dengan memisahkan parameter kalibrasi dari parameter uji. Beda temperatur terukur mengandung dua kontribusi: beda temperatur intrinsik pipa, yang dihitung model, dan beda temperatur antarmuka antara blok pemanas, dinding evaporator, klem kondensor, dan kalorimeter, yang tidak dimodelkan. Kontribusi kedua didekati dengan bentuk linear
+
+$$\Delta T_{pred}(Q) = \Delta T_{hp}(Q) + R_{int} Q + b$$ {#eq-kalibrasi}
+
+dengan $R_{int}$ hambatan antarmuka dan $b$ offset instrumental. Kedua konstanta ditentukan dengan kuadrat terkecil pada empat titik, lalu dipakai untuk memprediksi titik kelima; prosedur ini diulang lima kali sehingga setiap titik pernah menjadi titik uji (*leave-one-out*).
+
+Nilai $R_{int}$ yang diperoleh kemudian diperiksa kewajarannya secara independen. Konduktansi kontak antara dua permukaan logam yang diklem biasanya berkisar 1000--3000 W/(m²·K); dengan luas kontak efektif 0,015 m², hambatan yang dihasilkan adalah 0,022--0,067 K/W. Apabila nilai kalibrasi jatuh di dalam rentang tersebut, maka parameter kalibrasi memiliki dasar fisik dan bukan sekadar pemasangan kurva.
+
+### Metrik Evaluasi
+
+Akurasi validasi dinyatakan dengan *mean absolute percentage error* (MAPE), *root mean square error* (RMSE), dan koefisien determinasi $R^{2}$,
+
+$$\mathrm{MAPE} = \frac{100\%}{n}\sum_{i=1}^{n}\left|\frac{y_i - \hat y_i}{y_i}\right|, \qquad
+R^{2} = 1 - \frac{\sum (y_i - \hat y_i)^{2}}{\sum (y_i - \bar y)^{2}}$$ {#eq-metrik}
+
+Kinerja teras dinyatakan dengan faktor keselamatan $SF = Q_{env}/Q_{pin}$ dan margin tekanan kapiler
+
+$$M = \frac{\Delta P_{c,maks} - \Delta P_{req}}{\Delta P_{c,maks}} \times 100\%$$ {#eq-margin}
+
+Kriteria keberterimaan yang dipakai adalah $SF \ge 1{,}3$ pada pin puncak, $M > 0$ untuk seluruh pin, dan temperatur puncak bahan bakar di bawah 1650 K. Batas 1650 K dipilih lebih konservatif daripada titik leleh UN (3073 K) karena uranium nitrida mengalami disosiasi signifikan di atas 1900 K dalam lingkungan vakum, sehingga integritas bahan bakar lebih baik dijaga dengan margin yang lebar.
+
+## Rencana Analisis Hasil
+
+Analisis hasil dibagi menjadi enam bagian yang masing-masing menjawab satu pertanyaan penelitian. Bagian pertama menyajikan verifikasi dan validasi, termasuk pembahasan mengapa sebagian deviasi tidak dapat dihilangkan oleh model satu dimensi. Bagian kedua memetakan amplop operasi pada kondisi mikrogravitasi dan membandingkannya dengan kondisi pengujian darat. Bagian ketiga membahas profil aksial pada titik beban puncak, terutama perilaku tekanan kapiler dan bilangan Mach. Bagian keempat menyajikan optimasi geometri, dengan kriteria pemilihan yang dinyatakan eksplisit. Bagian kelima mengintegrasikan hasil ke seluruh 61 pin teras, termasuk evaluasi kegagalan satu dan dua pipa. Bagian keenam menutup dengan neraca massa, daya parasitik, dan pembahasan keterbatasan.

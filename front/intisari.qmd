@@ -1,0 +1,37 @@
+```{=latex}
+\clearpage
+\phantomsection\addcontentsline{toc}{chapter}{INTISARI}
+\thispagestyle{plain}
+\begin{singlespace}
+\begin{center}
+{\bfseries\judul}\\[0.3cm]
+\nama\\[0.1cm]
+\nim\\[0.4cm]
+Diajukan kepada Departemen Teknik Nuklir dan Teknik Fisika Fakultas Teknik\\
+Universitas Gadjah Mada pada tanggal \tglujian\\
+untuk memenuhi sebagian persyaratan untuk memperoleh derajat\\
+Sarjana Program Studi \prodi\\[0.5cm]
+{\bfseries INTISARI}
+\end{center}
+\setlength{\parindent}{1.27cm}
+```
+
+Reaktor antariksa membutuhkan pembuangan panas yang andal tanpa pompa, dan pipa kalor natrium menawarkan solusi pasif yang perilakunya pada mikrogravitasi sulit diprediksi tanpa model tervalidasi. Penelitian ini membangun model tereduksi satu dimensi dua fasa yang menyelesaikan momentum uap kompresibel, filtrasi Darcy, lima batas operasi, dan jaringan hambatan termal, lalu menerapkannya pada teras *Indonesian Space Reactor* (ISR) 500 kWth berisi 61 pin uranium nitrida.
+
+Model diverifikasi melalui uji konvergensi grid, neraca energi, dan perbandingan analitik, lalu divalidasi terhadap lima kondisi tunak KRUSTY NASA dengan kalibrasi dua konstanta antarmuka dan pengujian *leave-one-out* (MAPE 4,68%; $R^2 = 0{,}961$). Pada titik desain 1075 K, batas yang menentukan adalah *entrainment* (15,22 kW), bukan kapiler (51,97 kW), dan pipa 18 mm terpilih dengan faktor keselamatan 1,37.
+
+Seluruh 61 pin dapat didinginkan secara pasif dengan suhu puncak bahan bakar 1249 K. Eliminasi loop pompa Na-78K memangkas 40,94 kg massa subsistem (63,0%) dan 0,53 kW daya parasitik, tetapi menuntut 27,2% volume bahan bakar sehingga umur teras turun dari 17 menjadi 12,4 tahun. Manfaat utamanya adalah keselamatan inheren, bukan penghematan massa.
+
+```{=latex}
+\vspace{0.2cm}
+\noindent\textbf{\textit{Kata kunci:}} \textit{pipa kalor natrium, model tereduksi, aliran dua fasa, reaktor antariksa, KRUSTY, ISR}
+
+\bigskip
+\noindent
+\begin{tabular}{@{}l@{\hspace{0.3cm}}l@{}}
+Pembimbing Utama      & : \pembimbingutama \\[4pt]
+Pembimbing Pendamping & : \pembimbingpendamping \\
+\end{tabular}
+\end{singlespace}
+\clearpage
+```

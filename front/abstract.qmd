@@ -1,0 +1,37 @@
+```{=latex}
+\clearpage
+\phantomsection\addcontentsline{toc}{chapter}{ABSTRACT}
+\thispagestyle{plain}
+\begin{singlespace}
+\begin{center}
+{\bfseries\judulinggris}\\[0.3cm]
+\nama\\[0.1cm]
+\nim\\[0.4cm]
+Submitted to the Department of Nuclear Engineering and Engineering Physics, Faculty of Engineering,\\
+Universitas Gadjah Mada on \tglujianinggris\\
+in partial fulfilment of the requirements for the degree of\\
+Bachelor of \prodien\\[0.5cm]
+{\bfseries ABSTRACT}
+\end{center}
+\setlength{\parindent}{1.27cm}
+```
+
+Space reactors require reliable heat rejection without pumps, and sodium heat pipes offer a passive solution whose behaviour in microgravity is difficult to predict without a validated model. This study develops a one-dimensional reduced-order model of two-phase flow that solves compressible vapour momentum, Darcy filtration, five operating limits, and a thermal resistance network, and applies it to the 500 kWth *Indonesian Space Reactor* (ISR) core containing 61 uranium nitride pins.
+
+The model is verified by grid convergence, energy balance, and analytical comparison, and validated against five steady-state conditions of the KRUSTY test using two calibrated interfacial constants and a leave-one-out protocol (MAPE 4.68%; $R^2 = 0.961$). At the 1075 K design point the limiting mechanism is entrainment (15.22 kW), not the capillary limit (51.97 kW), and an 18 mm pipe is selected with a safety factor of 1.37.
+
+All 61 pins can be cooled passively with a peak fuel temperature of 1249 K. Eliminating the Na-78K pump loop removes 40.94 kg of subsystem mass (63.0%) and 0.53 kW of parasitic power, but requires 27.2% fuel volume, reducing core life from 17 to 12.4 years. The principal benefit is inherent safety rather than mass saving.
+
+```{=latex}
+\vspace{0.2cm}
+\noindent\textbf{\textit{Keywords:}} \textit{sodium heat pipe, reduced-order model, two-phase flow, space reactor, KRUSTY, ISR}
+
+\bigskip
+\noindent
+\begin{tabular}{@{}l@{\hspace{0.3cm}}l@{}}
+Main Supervisor    & : \pembimbingutama \\[4pt]
+Co-Supervisor      & : \pembimbingpendamping \\
+\end{tabular}
+\end{singlespace}
+\clearpage
+```
